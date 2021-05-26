@@ -1,26 +1,33 @@
-const userSetMiddleware = require('../middlewares/SetUser')
+const userSetMiddleware = require('../services/insertUsers')
+const userLoginMiddleware = require('../services/loginUsers')
 
 module.exports = {
-    register(req, res) {
-        const objt = {
-            names: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            RePass: req.body.RePass
-        }
-        const users = new userSetMiddleware(objt.names, objt.email, objt.password, objt.RePass)
-        if (users != null) {
-            res.send(users)
-            return console.log(users)
-
-        } else {
-            res.send(users)
-            console.log('erro')
+    register: async(req, res) => {
+        try {
+            const objt = {
+                names: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+                RePass: req.body.RePass
+            }
+            const users = await userSetMiddleware(objt.names, objt.email, objt.password, objt.RePass)
+            res.status(201).json(users)
+        } catch (e) {
+            res.status(500).json(e)
         }
     },
 
-    login(req, res) {
-
+    login: async(req, res) => {
+        try {
+            const objt = {
+                email: req.body.email,
+                password: req.body.password
+            }
+            const users = await userLoginMiddleware(objt.email, objt.password)
+            res.status(201).json(users)
+        } catch (e) {
+            res.status(500).json(e)
+        }
     }
 
 }
