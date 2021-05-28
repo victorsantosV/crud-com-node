@@ -1,12 +1,10 @@
 const bcrypt = require('bcrypt')
 const Users = require('../models/userModel')
 
-async function cryptNumber(emailReq, passReq, res) {
+async function cryptNumber(emailReq, passReq) {
 
-    Users.findOne({ email: emailReq })
-        .then((data) => {
-            bcrypt.compareSync(passReq, data.password) ? console.log('Passed Crypted') : console.log('Error in something')
-        }).catch(error => console.log('error compare'))
+    const users = await Users.findOne({ email: emailReq })
+    return bcrypt.compareSync(passReq, users.password)
 }
 
 module.exports = cryptNumber

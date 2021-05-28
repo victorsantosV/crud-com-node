@@ -3,9 +3,9 @@ const validateLogin = require('../middlewares/ValidateLogin')
 async function login(email, password, res) {
     const validation = await validateLogin(email, password)
     if (validation !== false) {
-        res.status(200).send('sucess')
+        return true
     } else {
-        res.status(404).send('err')
+        throw new Error("Erro de validacao")
     }
 }
 
