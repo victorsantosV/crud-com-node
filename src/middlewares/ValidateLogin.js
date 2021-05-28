@@ -4,11 +4,10 @@ const crypted = require('../adapters/crypted')
 
 async function validate(email, password, res) {
     const VerifyUSer = await userExists(email)
-    if (VerifyUSer === true) {
-        const compareHash = await compareCrypted(email, password)
-        console.log(compareHash)
+    if (VerifyUSer) {
+        const compareHash = await compareCrypted(VerifyUSer.password, password)
         if (compareHash === true) {
-            return true
+            return VerifyUSer
         } else {
             throw new Error("Erro de Hash")
         }

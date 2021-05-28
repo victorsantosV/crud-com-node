@@ -6,7 +6,7 @@ async function verify_user(emailUser) {
     if (emailDB == null) {
         return false
     } else {
-        return true
+        return emailDB
     }
 }
 

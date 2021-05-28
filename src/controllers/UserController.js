@@ -1,5 +1,6 @@
 const userSetMiddleware = require('../services/insertUsers')
 const userLoginMiddleware = require('../services/loginUsers')
+const jwt = require('jsonwebtoken')
 
 module.exports = {
     register: async(req, res) => {
@@ -25,8 +26,12 @@ module.exports = {
                 password: req.body.password
             }
             const users = await userLoginMiddleware(objt.email, objt.password)
-            if (users === true) {
-                res.status(201).json(users)
+            if (users) {
+                console.log(users)
+                const Verify = await jwt.sign(users.email, 'test')
+                const validationToken = await jwt.verify(Verify, 'test')
+                console.log(validationToken)
+                res.status(201).json(Verify)
             } else {
                 res.status(400).send('Erro de validacao')
             }

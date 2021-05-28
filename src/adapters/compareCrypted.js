@@ -1,10 +1,9 @@
 const bcrypt = require('bcrypt')
 const Users = require('../models/userModel')
 
-async function cryptNumber(emailReq, passReq) {
+async function cryptNumber(UserHash, passReq) {
 
-    const users = await Users.findOne({ email: emailReq })
-    return bcrypt.compareSync(passReq, users.password)
+    return bcrypt.compareSync(passReq, UserHash)
 }
 
 module.exports = cryptNumber
